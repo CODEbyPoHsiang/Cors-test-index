@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>跨域測試</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://bootswatch.com/3/darkly/bootstrap.css">
+
+    <style>
+        .table {
+            border-radius: 5px;
+            width: 50%;
+            margin: 0px auto;
+            float: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="POST">
+
+
+        <table class="table table-bordered">
+            <caption>
+                <h2>
+                    <center>CORS 跨域測試</center>
+                    
+                </h2>
+                *測試前，請先確認api是否有開啟cors*
+            </caption>
+            <thead>
+                <tr class=info>
+                    <th style="width:20%"></th>
+                    <th style="width:70%">API 網址</th>
+                    <th style="width:10%">操作</th>
+                    <th style="width:10%">動作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <h5>請輸入 API URL :</h5>
+                    </td>
+                    <td>
+                        <div class="col"> <input class="form-control" type="text" name="apiurl" id="apiurl" required="required" /></div>
+                    </td>
+                    <td>
+                        <div class="col"><input class="btn btn-success" type="button" value="跨域測試" onClick="messageGo();" /></div>
+                    </td>
+                    <td>
+                        <div class="col"><input class="btn btn-danger" type="button" value="清除結果" onClick="refreshPage();" /></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </br>
+        <table class="table table-bordered">
+            <thead>
+                <tr class=info>
+                    <th colspan="3" style="width:20%">測試&console結果</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3">
+                        <div id="log"></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <script type="text/javascript">
+        function messageGo() {
+            //取得 "api" 欄位值
+            var url = $('#apiurl').val();
+            $(document).ready(function () {
+                $('.btn').on('click', function () {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: url,
+                        success: function (data) {
+                            console.log(data);
+                        },
+                        error: function (data) {
+                            console.log('跨域未開啟，請查看console.log錯誤', data);
+                        }
+                    });
+                });
+            });
+
+            (function () {
+                if (!console) {
+                    console = {};
+                }
+                var old = console.log;
+                var logger = document.getElementById('log');
+                console.log = function (message) {
+                    if (typeof message == 'object') {
+                        logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : String(
+                                message)) +
+                            '<br />';
+                    } else {
+                        logger.innerHTML += message + '<br />';
+                    }
+                }
+            })();
+        }
+            function refreshPage() {
+                window.location.reload();
+            }
+        //教學 : https://stackoverflow.com/questions/20256760/javascript-console-log-to-html
+    </script>
+</body>
+
+</html>
