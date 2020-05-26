@@ -50,7 +50,7 @@
                         <div class="col"> <input class="form-control" type="text" name="apiurl" id="apiurl" required="required" /></div>
                     </td>
                     <td>
-                        <div class="col"><input class="btn btn-success" type="button" value="跨域測試" onClick="messageGo();" /></div>
+                        <div class="col"><input class="btn btn-success" type="button" id="console" value="跨域測試" onClick="messageGo();" /></div>
                     </td>
                     <td>
                         <div class="col"><input class="btn btn-danger" type="button" value="清除結果" onClick="refreshPage();" /></div>
@@ -80,7 +80,7 @@
             //取得 "api" 欄位值
             var url = $('#apiurl').val();
             $(document).ready(function () {
-                $('.btn').on('click', function () {
+                $('#console').on('click', function () {
                     $.ajax({
                         type: "GET",
                         dataType: "json",
